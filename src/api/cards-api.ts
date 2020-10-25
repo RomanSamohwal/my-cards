@@ -13,16 +13,12 @@ const instance = axios.create({
 
 // api
 export const authAPI = {
-    login: async (email: string, password: string, rememberMe: boolean) => {
-        const response = await instance.post<SignInDataType>('auth/login', {
-            email: email,
-            password: password,
-            rememberMe
-        });
+    login: async (data: LoginParamsType) => {
+        const response = await instance.post<SignInDataType>('auth/login', data);
         return response.data;
     },
-    signUp: async (email: string, password: string) => {
-        const response = await instance.post<ErrorDataType>('auth/register', {email: email, password: password});
+    signUp: async (data: LoginParamsType) => {
+        const response = await instance.post<ErrorDataType>('auth/register', data);
         return response.data;
     },
     authMe: async () => {
@@ -37,8 +33,8 @@ export const authAPI = {
         const response = await instance.post<ErrorDataType>('auth/forgot', {});
         return response.data;
     },
-    newPassword: async (password: string, resetPasswordToken: string) => {
-        const response = await instance.post<ErrorDataType>('auth/set-new-password', {password, resetPasswordToken});
+    newPassword: async (data: LoginParamsType) => {
+        const response = await instance.post<ErrorDataType>('auth/set-new-password', data);
         return response.data;
     },
     updateUsers: async (name: string, avatar: string) => {
@@ -78,3 +74,10 @@ export type UpdateUserDataType = {
     updatedUser: UserType;
     error: string;
 };
+
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe?: boolean
+    resetPasswordToken?: string
+}
