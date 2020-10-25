@@ -12,49 +12,69 @@ const instance = axios.create({
 })
 
 // api
-export const cardsAPI = {
-    login: async (email: string, password: string,) => {
-        const response = await instance.post<any>('auth/login', {email: email, password: password, rememberMe: true});
+export const authAPI = {
+    login: async (email: string, password: string, rememberMe: boolean) => {
+        const response = await instance.post<SignInDataType>('auth/login', {
+            email: email,
+            password: password,
+            rememberMe
+        });
         return response.data;
     },
     signUp: async (email: string, password: string) => {
-        const response = await instance.post('auth/register', {email: email, password: password});
+        const response = await instance.post<ErrorDataType>('auth/register', {email: email, password: password});
         return response.data;
     },
-    authMe() {
-        const promise = instance.post<any>('auth/register', {});
-        return promise;
+    authMe: async () => {
+        const response = await instance.post<SignInDataType>('auth/me', {});
+        return response.data;
     },
-    logout() {
-        const promise = instance.delete<any>('auth/me', {});
-        return promise;
+    logout: async () => {
+        const response = await instance.delete<InfoType>('auth/me', {});
+        return response.data;
     },
-    forgot() {
-        const promise = instance.post<any>('auth/forgot', {});
-        return promise;
+    forgot: async () => {
+        const response = await instance.post<ErrorDataType>('auth/forgot', {});
+        return response.data;
     },
-    newPassword(password: string, resetPasswordToken: string) {
-        const promise = instance.post<any>('auth/set-new-password', {password: password, resetPasswordToken});
-        return promise;
+    newPassword: async (password: string, resetPasswordToken: string) => {
+        const response = await instance.post<ErrorDataType>('auth/set-new-password', {password, resetPasswordToken});
+        return response.data;
     },
-    updateUsers(name: string, avatar: string) {
-        const promise = instance.put<any>('auth/me', {name: name, avatar});
-        return promise;
+    updateUsers: async (name: string, avatar: string) => {
+        const response = await instance.put<UpdateUserDataType>('auth/me', {name: name, avatar});
+        return response.data;
     }
 }
 
+//types
+export type SignInDataType = UserType & { error: string; };
 
+export type UserType = {
+    _id: string,
+    email: string,
+    rememberMe: boolean,
+    isAdmin: boolean,
+    name: string,
+    verified: boolean,
+    publicCardPacksCount: number,
+    created: string,
+    updated: string,
+    avatar?: string | undefined,
+    __v: number,
+    token: string,
+    tokenDeathTime: number
+}
 
-//res login
-/*
-addedUser: {_id: "5f949e1fd7d66426389a00a1", email: "rsamo@gmail.com", rememberMe: false, isAdmin: false,…}
-created: "2020-10-24T21:35:27.241Z"
-email: "rsamo@gmail.com"
-isAdmin: false
-name: "rsamo@gmail.com"
-publicCardPacksCount: 0
-rememberMe: false
-updated: "2020-10-24T21:35:27.241Z"
-verified: false
-__v: 0
-_id: "5f949e1fd7d66426389a00a1"*/
+export type InfoType = {
+    info: string
+}
+
+export type ErrorDataType = {
+    error: string;
+}
+
+export type UpdateUserDataType = {
+    updatedUser: UserType;
+    error: string;
+};
