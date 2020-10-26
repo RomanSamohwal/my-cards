@@ -51,7 +51,7 @@ const slice = createSlice({
     name: 'auth',
     initialState: initialState,
     reducers: {
-        setIsLoggedInAc(state, action: PayloadAction<PayloadActionType>) {
+        setIsLoggedIn(state, action: PayloadAction<PayloadActionType>) {
             state.isLoggedIn = action.payload.value
         },
         setIsRegister(state, action: PayloadAction<PayloadActionType>) {
@@ -76,7 +76,7 @@ const slice = createSlice({
 })
 
 export const authReducer = slice.reducer
-
+export const {setIsLoggedIn, setIsRegister} = slice.actions;
 
 //types
 type PayloadActionType = {value: boolean}
