@@ -13,12 +13,12 @@ const instance = axios.create({
 
 // api
 export const authAPI = {
-    login: async (data: LoginParamsType) => {
-        const response = await instance.post<SignInDataType>('auth/login', data);
-        return response.data;
-    },
     signUp: async (data: LoginParamsType) => {
         const response = await instance.post<ErrorDataType>('auth/register', data);
+        return response.data;
+    },
+    login: async (data: LoginParamsType) => {
+        const response = await instance.post<SignInDataType>('auth/login', data);
         return response.data;
     },
     authMe: async () => {
