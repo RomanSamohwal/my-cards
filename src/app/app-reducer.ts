@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {authAPI} from '../api/cards-api';
-import {setIsLoggedIn,setIsRegister} from '../features/Auth/auth-reducer'
+import {setIsLoggedIn, setIsRegister} from '../features/Auth/auth-reducer'
 
 export const initializedAp = createAsyncThunk(
     'app/initializeApp',
@@ -18,10 +18,10 @@ const slice = createSlice({
         isInitialized: false
     } as InitialStateType,
     reducers: {
-        setAppErrorAC(state, action: PayloadAction<{ error: string | null }>) {
+        setAppError(state, action: PayloadAction<{ error: string | null }>) {
             state.error = action.payload.error
         },
-        setAppStatusAC(state, action: PayloadAction<{ status: RequestStatusType }>) {
+        setAppStatus(state, action: PayloadAction<{ status: RequestStatusType }>) {
             state.status = action.payload.status
         }
     },
@@ -33,7 +33,7 @@ const slice = createSlice({
 })
 
 export const appReducer = slice.reducer;
-
+export const {setAppError, setAppStatus} = slice.actions
 //types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 export type InitialStateType = {

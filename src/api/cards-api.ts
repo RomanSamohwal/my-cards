@@ -38,7 +38,7 @@ export const authAPI = {
         return response.data;
     },
     updateUsers: async (name: string, avatar: string) => {
-        const response = await instance.put<UpdateUserDataType>('auth/me', {name: name, avatar});
+        const response = await instance.put<UpdateUserDataType>('auth/me', {name, avatar});
         return response.data;
     }
 }
