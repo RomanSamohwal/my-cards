@@ -17,13 +17,24 @@ export const Register = () => {
                 return {
                     email: 'Email is required'
                 }
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                setDisable(true)
+                return {
+                    email: 'Invalid email address'
+                }
             }
             if (!values.password) {
                 setDisable(true)
                 return {
                     password: 'Password is required'
                 }
+            } else if (values.password.length < 5) {
+                setDisable(true)
+                return {
+                    password: 'password is less than 5 characters'
+                }
             }
+
             if (!values.password_confirm) {
                 setDisable(true)
                 return {
