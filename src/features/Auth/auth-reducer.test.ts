@@ -1,7 +1,7 @@
-import {authMe, authReducer, login, signUp} from './auth-reducer';
+import {authReducer, login, signUp} from './auth-reducer';
 import {LoginParamsType} from '../../api/cards-api';
 
-let startState: {isSignUp: boolean, isLoggedIn: boolean}
+let startState: { isSignUp: boolean, isLoggedIn: boolean }
 
 beforeEach(() => {
     startState = {isLoggedIn: false, isSignUp: false}
@@ -30,11 +30,4 @@ test('isLoggedIn should be true', () => {
 
     const endState = authReducer(startState, action)
     expect(endState.isLoggedIn).toBe(true)
-})
-
-test('After initialization isSignUp,isLoggedIn should be true', () => {
-    let action = authMe.fulfilled({value: true}, '', '')
-    const endState = authReducer(startState, action)
-    expect(endState.isLoggedIn).toBe(true)
-    expect(endState.isSignUp).toBe(true)
 })
