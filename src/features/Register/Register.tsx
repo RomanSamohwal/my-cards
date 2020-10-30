@@ -56,7 +56,8 @@ export const Register = () => {
             password_confirm: ''
         },
         onSubmit: (values, formikHelpers: FormikHelpers<FormValuesType>) => {
-            alert(JSON.stringify(values, null, 2));
+
+            /*alert(JSON.stringify(values, null, 2));*/
         },
     });
 
