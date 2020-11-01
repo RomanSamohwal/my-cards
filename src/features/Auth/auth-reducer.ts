@@ -64,7 +64,7 @@ const slice = createSlice({
             state.isLoggedIn = action.payload.value
         },
         setIsRegister(state, action: PayloadAction<PayloadActionType>) {
-            state.isLoggedIn = action.payload.value
+            state.isSignUp = action.payload.value
         }
     },
     extraReducers: builder => {

@@ -58,9 +58,10 @@ export const Register = () => {
             password_confirm: ''
         },
         onSubmit: async (values, formikHelpers: FormikHelpers<FormValuesType>) => {
-         const action = await dispatch(signUp({email: values.email, password: values.password }))
-            debugger;
-        /* formikHelpers.setFieldError('email', 'fake error')*/
+            setDisable(true)
+            const action = await dispatch(signUp({email: values.email, password: values.password}))
+            setDisable(false)
+            formikHelpers.setFieldError('email', 'fake error')
         },
     });
 
