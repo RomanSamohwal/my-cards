@@ -1,10 +1,11 @@
 import React from 'react'
 import {Formik, FormValuesType, InputsType} from '../../components/Formik/Formik';
 import {FormikHelpers} from 'formik';
-
-
+import {login, signUp} from '../Auth/auth-reducer';
+import {useAppDispatch} from '../../app/store';
 
 export const Login = () => {
+    const dispatch = useAppDispatch()
     const inputDates: InputsType = [
         {
             id: 'email',
@@ -18,16 +19,16 @@ export const Login = () => {
             type: 'password',
             key: 'password_id',
         }]
-    const initialValues = {
-        email : '',
-        password: ''
+    const initialValues: FormValuesType = {
+        email: '',
+        password: '',
+        rememberMe: false
     }
-
-    const onSubmit = (values: any, formikHelpers: FormikHelpers<FormValuesType>) => {
-        alert(alert(JSON.stringify(values)))
+    const onSubmit = async (values: any, formikHelpers: FormikHelpers<FormValuesType>) => {
+        alert(values)
+        const action = await dispatch(login({email: values.email, password: values.password, rememberMe: values.rememberMe}))
     }
-
-    const validate = (values:FormValuesType) => {
+    const validate = (values: FormValuesType) => {
         if (!values.email) {
             return {
                 email: 'Email is required'
@@ -48,8 +49,7 @@ export const Login = () => {
         }
 
     }
-
     return <div>Login
-      <Formik validate = {validate} initialValues={initialValues} inputDates = {inputDates} onSubmit = {onSubmit}/>
+        <Formik validate={validate} initialValues={initialValues} inputDates={inputDates} onSubmit={onSubmit}/>
     </div>
 }

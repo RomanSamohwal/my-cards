@@ -33,8 +33,15 @@ export const login = createAsyncThunk<any, LoginParamsType, any>(
             dispatch(setAppStatus({status: 'succeeded'}))
             return {value: true}
         } catch (err) {
+            const error: AxiosError = err;
             dispatch(setAppStatus({status: 'failed'}))
-            return rejectWithValue(err.response.data.error)
+            if (error.response?.data.error) {
+                dispatch(setAppError({error: error.response.data.error}))
+                return rejectWithValue({error: error.response.data.error})
+            } else {
+                dispatch(setAppError({error: error.message}))
+                return rejectWithValue({error: error.message})
+            }
         }
     })
 
