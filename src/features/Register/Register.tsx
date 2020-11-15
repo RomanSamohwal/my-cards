@@ -8,7 +8,6 @@ type FormValuesType = {
     password: string,
     password_confirm: string
 }
-
 export const Register = () => {
     const [disable, setDisable] = useState<boolean>(true)
     const dispatch = useAppDispatch()
