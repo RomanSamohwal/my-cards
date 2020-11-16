@@ -1,13 +1,26 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {authAPI} from '../api/cards-api';
-import {setIsLoggedIn, setIsRegister} from '../features/Auth/auth-reducer'
+import {AxiosError} from 'axios';
 
 export const initializedAp = createAsyncThunk(
     'app/initializeApp',
-    async (param, {dispatch}) => {
-        let res = await authAPI.authMe()
-        dispatch(setIsLoggedIn({value: true}))
-        dispatch(setIsRegister({value: true}))
+    async (param, {dispatch, rejectWithValue}) => {
+        dispatch(setAppStatus({status: 'loading'}))
+        try {
+            let res = await authAPI.authMe()
+            console.log(res)
+            dispatch(setAppStatus({status: 'succeeded'}))
+        } catch (err) {
+            const error: AxiosError = err;
+            dispatch(setAppStatus({status: 'failed'}))
+            if (error.response?.data.error) {
+                dispatch(setAppError({error: error.response.data.error}))
+                return rejectWithValue({error: error.response.data.error})
+            } else {
+                dispatch(setAppError({error: error.message}))
+                return rejectWithValue({error: error.message})
+            }
+        }
     })
 
 const slice = createSlice({

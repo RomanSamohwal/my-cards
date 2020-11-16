@@ -43,7 +43,6 @@ export const LoginFormik = React.memo(() => {
         </div>
     </form>
 })
-
 //initial value
 export const initialValues: FormValuesType = {
     email: '',
@@ -72,7 +71,6 @@ export const validate = (values: FormValuesType) => {
     }
 
 }
-
 //types
 export type InputDateType = {
     id: string

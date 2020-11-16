@@ -1,11 +1,8 @@
 import React from 'react'
-import {InputsType, LoginFormik} from '../../components/Formik/Formik';
-import {useAppDispatch} from '../../app/store';
+import {LoginFormik} from '../../components/Formik/Formik';
 
-export const Login = () => {
-    const dispatch = useAppDispatch()
-
+export const Login = React.memo(() => {
     return <div>Login
         <LoginFormik/>
     </div>
-}
+})
