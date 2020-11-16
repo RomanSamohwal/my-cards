@@ -3,6 +3,7 @@ import {authAPI, LoginParamsType} from '../../api/cards-api';
 import {setAppError, setAppStatus} from '../../app/app-reducer'
 import {AxiosError} from 'axios';
 
+/*
 export const signUp = createAsyncThunk<any, LoginParamsType, any>(
     'auth/signUp',
     async (param: LoginParamsType, {dispatch, rejectWithValue}) => {
@@ -23,6 +24,7 @@ export const signUp = createAsyncThunk<any, LoginParamsType, any>(
             }
         }
     })
+*/
 
 export const login = createAsyncThunk<any, LoginParamsType, any>(
     'auth/login',
@@ -75,9 +77,9 @@ const slice = createSlice({
         }
     },
     extraReducers: builder => {
-        builder.addCase(signUp.fulfilled, (state, action) => {
+       /* builder.addCase(signUp.fulfilled, (state, action) => {
             state.isSignUp = action.payload.value
-        })
+        })*/
 
         builder.addCase(login.fulfilled, (state, action) => {
             state.isLoggedIn = action.payload.value

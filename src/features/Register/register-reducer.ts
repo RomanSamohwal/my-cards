@@ -3,12 +3,14 @@ import {authAPI, LoginParamsType} from '../../api/cards-api';
 import {setAppError, setAppStatus} from '../../app/app-reducer';
 import {AxiosError} from 'axios';
 
-export const login = createAsyncThunk<any, LoginParamsType, any>(
-    'auth/login',
-    async (param: LoginParamsType, {dispatch, rejectWithValue}) => {
+
+export const signUp = createAsyncThunk<any, LoginParamsType, any>(
+    'auth/signUp',
+    async (param: LoginParamsType, {dispatch,
+        rejectWithValue}) => {
         dispatch(setAppStatus({status: 'loading'}))
         try {
-            const res = await authAPI.login(param)
+            const res = await authAPI.signUp(param)
             dispatch(setAppStatus({status: 'succeeded'}))
             return {value: true}
         } catch (err) {
@@ -25,27 +27,24 @@ export const login = createAsyncThunk<any, LoginParamsType, any>(
     })
 
 const slice = createSlice({
-    name: 'login',
+    name: 'registration',
     initialState: {
-        isLoggedIn: false
+        isSignUp: false
     } as InitType,
-    reducers: {
-        setIsLoggedIn(state, action: PayloadAction<PayloadActionType>) {
-            state.isLoggedIn = action.payload.value
-        }
-    },
+    reducers : {
+        setIsRegister(state, action: PayloadAction<PayloadActionType>) {
+            state.isSignUp = action.payload.value
+        }},
     extraReducers: builder => {
-        builder.addCase(login.fulfilled, (state, action) => {
-            state.isLoggedIn = action.payload.value
+        builder.addCase(signUp.fulfilled, (state,action) => {
+               state.isSignUp = action.payload.value
         })
     }
 })
 
-
-
-//types
+//type
 type InitType = {
-    isLoggedIn: boolean
+    isSignUp: boolean
 }
 
-type PayloadActionType = { value: boolean}
+type PayloadActionType = { value: boolean }
