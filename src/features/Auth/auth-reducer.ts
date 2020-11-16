@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {authAPI, LoginParamsType} from '../../api/cards-api';
-import {setAppStatus} from '../../app/app-reducer'
+import {setAppError, setAppStatus} from '../../app/app-reducer'
+import {AxiosError} from 'axios';
 
 export const signUp = createAsyncThunk<any, LoginParamsType, any>(
     'auth/signUp',
@@ -11,8 +12,15 @@ export const signUp = createAsyncThunk<any, LoginParamsType, any>(
             dispatch(setAppStatus({status: 'succeeded'}))
             return {value: true}
         } catch (err) {
+            const error: AxiosError = err;
             dispatch(setAppStatus({status: 'failed'}))
-            return rejectWithValue(err.response.data.error)
+            if (error.response?.data.error) {
+                dispatch(setAppError({error: error.response.data.error}))
+                return rejectWithValue({error: error.response.data.error})
+            } else {
+                dispatch(setAppError({error: error.message}))
+                return rejectWithValue({error: error.message})
+            }
         }
     })
 
@@ -25,8 +33,15 @@ export const login = createAsyncThunk<any, LoginParamsType, any>(
             dispatch(setAppStatus({status: 'succeeded'}))
             return {value: true}
         } catch (err) {
+            const error: AxiosError = err;
             dispatch(setAppStatus({status: 'failed'}))
-            return rejectWithValue(err.response.data.error)
+            if (error.response?.data.error) {
+                dispatch(setAppError({error: error.response.data.error}))
+                return rejectWithValue({error: error.response.data.error})
+            } else {
+                dispatch(setAppError({error: error.message}))
+                return rejectWithValue({error: error.message})
+            }
         }
     })
 
@@ -56,7 +71,7 @@ const slice = createSlice({
             state.isLoggedIn = action.payload.value
         },
         setIsRegister(state, action: PayloadAction<PayloadActionType>) {
-            state.isLoggedIn = action.payload.value
+            state.isSignUp = action.payload.value
         }
     },
     extraReducers: builder => {

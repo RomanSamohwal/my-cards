@@ -1,15 +1,16 @@
 import React, {useState} from 'react'
 import {FormikHelpers, useFormik} from 'formik';
+import {signUp} from '../Auth/auth-reducer';
+import {useAppDispatch} from '../../app/store';
 
 type FormValuesType = {
     email: string,
     password: string,
     password_confirm: string
 }
-
 export const Register = () => {
     const [disable, setDisable] = useState<boolean>(true)
-
+    const dispatch = useAppDispatch()
     const formik = useFormik({
         validate: (values) => {
             if (!values.email) {
@@ -17,13 +18,24 @@ export const Register = () => {
                 return {
                     email: 'Email is required'
                 }
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                setDisable(true)
+                return {
+                    email: 'Invalid email address'
+                }
             }
             if (!values.password) {
                 setDisable(true)
                 return {
                     password: 'Password is required'
                 }
+            } else if (values.password.length < 8) {
+                setDisable(true)
+                return {
+                    password: 'password must be more than 7 characters'
+                }
             }
+
             if (!values.password_confirm) {
                 setDisable(true)
                 return {
@@ -44,8 +56,11 @@ export const Register = () => {
             password: '',
             password_confirm: ''
         },
-        onSubmit: (values, formikHelpers: FormikHelpers<FormValuesType>) => {
-            alert(JSON.stringify(values, null, 2));
+        onSubmit: async (values, formikHelpers: FormikHelpers<FormValuesType>) => {
+            setDisable(true)
+            const action = await dispatch(signUp({email: values.email, password: values.password}))
+            setDisable(false)
+            formikHelpers.setFieldError('email', 'fake error')
         },
     });
 
@@ -88,7 +103,7 @@ export const Register = () => {
                     {formik.errors.password_confirm ? <div>{formik.errors.password_confirm}</div> : null}
                 </div>
                 <div>
-                    <button type="submit" disabled={disable}>Add</button>
+                    <button type="submit" disabled={disable}>sign up</button>
                 </div>
             </div>
         </form>
