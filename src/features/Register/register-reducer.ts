@@ -3,7 +3,6 @@ import {authAPI, LoginParamsType} from '../../api/cards-api';
 import {setAppError, setAppStatus} from '../../app/app-reducer';
 import {AxiosError} from 'axios';
 
-
 export const signUp = createAsyncThunk<any, LoginParamsType, any>(
     'auth/signUp',
     async (param: LoginParamsType, {dispatch,
@@ -27,20 +26,24 @@ export const signUp = createAsyncThunk<any, LoginParamsType, any>(
     })
 
 const slice = createSlice({
-    name: 'registration',
+    name: 'reg',
     initialState: {
         isSignUp: false
     } as InitType,
-    reducers : {
+    reducers: {
         setIsRegister(state, action: PayloadAction<PayloadActionType>) {
             state.isSignUp = action.payload.value
-        }},
+        }
+    },
     extraReducers: builder => {
-        builder.addCase(signUp.fulfilled, (state,action) => {
-               state.isSignUp = action.payload.value
+        builder.addCase(signUp.fulfilled, (state, action) => {
+            state.isSignUp = action.payload.value
         })
     }
 })
+
+export const regReducer = slice.reducer
+export const {setIsRegister} = slice.actions;
 
 //type
 type InitType = {

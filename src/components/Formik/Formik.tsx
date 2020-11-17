@@ -1,7 +1,8 @@
 import React from 'react';
 import {FormikHelpers, useFormik} from 'formik';
-import {login} from '../../features/Auth/auth-reducer';
+
 import {useAppDispatch} from '../../app/store';
+import { login } from '../../features/Login/login-reducer';
 
 export const LoginFormik = React.memo(() => {
     const dispatch = useAppDispatch()

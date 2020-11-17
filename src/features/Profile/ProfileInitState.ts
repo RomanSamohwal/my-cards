@@ -16,7 +16,7 @@ export const FakeUser = {
     _id: "0",
     email: "fake",
     name: "fake",
-    // avatar?: string;
+    avatar : '',
     publicCardPacksCount: 0,
 
     created: new Date(),
@@ -27,13 +27,11 @@ export const FakeUser = {
 };
 
 export type ProfileStateType = {
+    isAuthorized: boolean,
     user: UserType
-    isSignUp: boolean,
-    isLoggedIn: boolean
 };
 
 export const ProfileInitState: ProfileStateType = {
-    user: FakeUser,
-    isLoggedIn: false,
-    isSignUp: false
+    isAuthorized: false,
+    user: FakeUser
 };

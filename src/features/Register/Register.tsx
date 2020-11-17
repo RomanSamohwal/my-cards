@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
 import {FormikHelpers, useFormik} from 'formik';
-import {signUp} from '../Auth/auth-reducer';
+
 import {useAppDispatch} from '../../app/store';
+import {signUp} from './register-reducer';
 
 type FormValuesType = {
     email: string,

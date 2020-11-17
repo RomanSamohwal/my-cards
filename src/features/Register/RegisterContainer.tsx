@@ -8,7 +8,7 @@ import {setAppStatus} from '../../app/app-reducer';
 
 export const RegisterContainer = () => {
     const dispatch = useAppDispatch()
-    const isSignUp = useSelector<AppRootStateType>(state => state.auth.isSignUp)
+    const isSignUp = useSelector<AppRootStateType>(state => state.reg.isSignUp)
 
     if (isSignUp) {
         dispatch(setAppStatus({status: "idle"}))

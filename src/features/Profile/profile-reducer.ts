@@ -1,8 +1,9 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {setAppError, setAppStatus} from '../../app/app-reducer';
 import {authAPI} from '../../api/cards-api';
 import {AxiosError} from 'axios';
 import {ProfileInitState} from './ProfileInitState';
+import {PayloadActionType} from '../Login/login-reducer';
 
 export const initializedAp = createAsyncThunk(
     'app/initializeApp',
@@ -10,8 +11,10 @@ export const initializedAp = createAsyncThunk(
         dispatch(setAppStatus({status: 'loading'}))
         try {
             let res = await authAPI.authMe()
-            console.log(res)
             dispatch(setAppStatus({status: 'succeeded'}))
+            dispatch(setIsAuthorized({value: true}))
+            console.log(res)
+            return {res: res}
         } catch (err) {
             const error: AxiosError = err;
             dispatch(setAppStatus({status: 'failed'}))
@@ -25,14 +28,21 @@ export const initializedAp = createAsyncThunk(
         }
     })
 
-
 const slice = createSlice({
     name: 'profile',
     initialState: ProfileInitState,
-    reducers: {},
+    reducers: {
+        setIsAuthorized(state, action: PayloadAction<PayloadActionType>) {
+            state.isAuthorized  = action.payload.value
+        }
+    },
     extraReducers: builder => {
-        builder.addCase(initializedAp.fulfilled, (state) => {
-            state.isLoggedIn = true
+        builder.addCase(initializedAp.fulfilled, (state, action) => {
+                state.user = action.payload.res
         })
     }
 })
+
+
+export const {setIsAuthorized} = slice.actions;
+export const profileReducer = slice.reducer

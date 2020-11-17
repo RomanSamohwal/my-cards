@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {UserType} from '../features/Profile/ProfileInitState';
 
 const localhost = 'http://localhost:7542/2.0/'
 
@@ -22,7 +23,7 @@ export const authAPI = {
         return response.data;
     },
     authMe: async () => {
-        const response = await instance.post<SignInDataType>('auth/me', {});
+        const response = await instance.post<GetMeDataType>('auth/me');
         return response.data;
     },
     logout: async () => {
@@ -46,22 +47,6 @@ export const authAPI = {
 //types
 export type SignInDataType = UserType & { error: string; };
 
-export type UserType = {
-    _id: string,
-    email: string,
-    rememberMe: boolean,
-    isAdmin: boolean,
-    name: string,
-    verified: boolean,
-    publicCardPacksCount: number,
-    created: string,
-    updated: string,
-    avatar?: string | undefined,
-    __v: number,
-    token: string,
-    tokenDeathTime: number
-}
-
 export type InfoType = {
     info: string
 }
@@ -81,3 +66,5 @@ export type LoginParamsType = {
     rememberMe?: boolean
     resetPasswordToken?: string
 }
+
+export type GetMeDataType = UserType & { error: string; };

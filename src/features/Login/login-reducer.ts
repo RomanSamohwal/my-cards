@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {authAPI, LoginParamsType} from '../../api/cards-api';
 import {setAppError, setAppStatus} from '../../app/app-reducer';
 import {AxiosError} from 'axios';
+import {setIsAuthorized} from '../Profile/profile-reducer';
 
 export const login = createAsyncThunk<any, LoginParamsType, any>(
     'auth/login',
@@ -10,6 +11,7 @@ export const login = createAsyncThunk<any, LoginParamsType, any>(
         try {
             const res = await authAPI.login(param)
             dispatch(setAppStatus({status: 'succeeded'}))
+            dispatch(setIsAuthorized({value: true}))
             return {value: true}
         } catch (err) {
             const error: AxiosError = err;
@@ -41,6 +43,8 @@ const slice = createSlice({
     }
 })
 
+export const loginReducer = slice.reducer
+export const {setIsLoggedIn} = slice.actions;
 
 
 //types
@@ -48,4 +52,4 @@ type InitType = {
     isLoggedIn: boolean
 }
 
-type PayloadActionType = { value: boolean}
+export type PayloadActionType = { value: boolean}
