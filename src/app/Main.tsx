@@ -4,12 +4,14 @@ import {Routes} from './Routes/Routes';
 import style from './Main.module.css'
 import {ErrorComponent} from '../components/Error/ErrorComponent';
 import {useSelector} from 'react-redux';
-import {selectStatus} from './Selectors/selectors';
+import {info, selectStatus} from './Selectors/selectors';
 import {Loading} from '../components/loading/LoadingComponent';
 import {Success} from '../components/Success/Success';
+import {Info} from '../components/Info/Info';
 
 export const Main = () => {
     const status = useSelector(selectStatus)
+    const information = useSelector(info);
 
     return <div className={style.Main}>
         <Header/>
@@ -17,5 +19,6 @@ export const Main = () => {
         <ErrorComponent/>
            {status === 'loading' && <Loading/>}
            {status === 'succeeded' && <Success/>}
+           {information && <Info/>}
     </div>
 }

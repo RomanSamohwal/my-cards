@@ -6,3 +6,4 @@ export const userId = (state: AppRootStateType) => state.profile.user._id
 export const isAuthorized = (state: AppRootStateType) => state.profile.isAuthorized
 export const isLogin = (state: AppRootStateType ) => state.login.isLoggedIn
 export const isLogOut = (state: AppRootStateType) => state.logout.isLogOut
+export const info = (state: AppRootStateType) => state.app.info
