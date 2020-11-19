@@ -5,11 +5,11 @@ import {AxiosError} from 'axios';
 import {setIsAuthorized} from '../Profile/profile-reducer';
 
 export const login = createAsyncThunk<any, LoginParamsType, any>(
-    'auth/login',
+    'login/Login',
     async (param: LoginParamsType, {dispatch, rejectWithValue}) => {
         dispatch(setAppStatus({status: 'loading'}))
         try {
-            const res = await authAPI.login(param)
+            await authAPI.login(param)
             dispatch(setAppStatus({status: 'succeeded'}))
             dispatch(setIsAuthorized({value: true}))
             return {value: true}

@@ -9,7 +9,7 @@ export const signUp = createAsyncThunk<any, LoginParamsType, any>(
         rejectWithValue}) => {
         dispatch(setAppStatus({status: 'loading'}))
         try {
-            const res = await authAPI.signUp(param)
+            await authAPI.signUp(param)
             dispatch(setAppStatus({status: 'succeeded'}))
             return {value: true}
         } catch (err) {

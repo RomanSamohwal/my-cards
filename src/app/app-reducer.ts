@@ -6,7 +6,8 @@ const slice = createSlice({
     initialState: {
         status: 'idle',
         error: null,
-        isInitialized: false
+        isInitialized: false,
+        info: ''
     } as InitialStateType,
     reducers: {
         setAppError(state, action: PayloadAction<{ error: string | null }>) {
@@ -14,12 +15,15 @@ const slice = createSlice({
         },
         setAppStatus(state, action: PayloadAction<{ status: RequestStatusType }>) {
             state.status = action.payload.status
+        },
+        setInfo(state, action: PayloadAction<{ info: string }>) {
+            state.info = action.payload.info
         }
     }
 })
 
 export const appReducer = slice.reducer;
-export const {setAppError, setAppStatus} = slice.actions
+export const {setAppError, setAppStatus, setInfo} = slice.actions
 //types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 export type InitialStateType = {
@@ -28,4 +32,5 @@ export type InitialStateType = {
     // если ошибка какая-то глобальная произойдёт - мы запишем текст ошибки сюда
     error: string | null
     isInitialized: boolean
+    info: string
 }

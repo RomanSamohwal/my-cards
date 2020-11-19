@@ -6,18 +6,18 @@ import {ProfileInitState} from './ProfileInitState';
 import {PayloadActionType} from '../Login/login-reducer';
 
 export const initializedAp = createAsyncThunk(
-    'app/initializeApp',
+    'profile/initializeApp',
     async (param, {dispatch, rejectWithValue}) => {
         dispatch(setAppStatus({status: 'loading'}))
         try {
             let res = await authAPI.authMe()
             dispatch(setAppStatus({status: 'succeeded'}))
             dispatch(setIsAuthorized({value: true}))
-            console.log(res)
             return {res: res}
         } catch (err) {
             const error: AxiosError = err;
             dispatch(setAppStatus({status: 'failed'}))
+            dispatch(setIsAuthorized({value: false}))
             if (error.response?.data.error) {
                 dispatch(setAppError({error: error.response.data.error}))
                 return rejectWithValue({error: error.response.data.error})
