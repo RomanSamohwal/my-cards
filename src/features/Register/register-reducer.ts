@@ -1,23 +1,20 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {authAPI, LoginParamsType} from '../../api/cards-api';
 import {setAppError, setAppStatus} from '../../app/app-reducer';
-import {authAPI} from '../../api/cards-api';
 import {AxiosError} from 'axios';
-import {ProfileInitState} from './ProfileInitState';
-import {PayloadActionType} from '../Login/login-reducer';
 
-export const initializedAp = createAsyncThunk(
-    'profile/initializeApp',
-    async (param, {dispatch, rejectWithValue}) => {
+export const signUp = createAsyncThunk<any, LoginParamsType, any>(
+    'auth/signUp',
+    async (param: LoginParamsType, {dispatch,
+        rejectWithValue}) => {
         dispatch(setAppStatus({status: 'loading'}))
         try {
-            let res = await authAPI.authMe()
+            await authAPI.signUp(param)
             dispatch(setAppStatus({status: 'succeeded'}))
-            dispatch(setIsAuthorized({value: true}))
-            return {res: res}
+            return {value: true}
         } catch (err) {
             const error: AxiosError = err;
             dispatch(setAppStatus({status: 'failed'}))
-            dispatch(setIsAuthorized({value: false}))
             if (error.response?.data.error) {
                 dispatch(setAppError({error: error.response.data.error}))
                 return rejectWithValue({error: error.response.data.error})
@@ -29,20 +26,28 @@ export const initializedAp = createAsyncThunk(
     })
 
 const slice = createSlice({
-    name: 'profile',
-    initialState: ProfileInitState,
+    name: 'reg',
+    initialState: {
+        isSignUp: false
+    } as InitType,
     reducers: {
-        setIsAuthorized(state, action: PayloadAction<PayloadActionType>) {
-            state.isAuthorized  = action.payload.value
+        setIsRegister(state, action: PayloadAction<PayloadActionType>) {
+            state.isSignUp = action.payload.value
         }
     },
     extraReducers: builder => {
-        builder.addCase(initializedAp.fulfilled, (state, action) => {
-                state.user = action.payload.res
+        builder.addCase(signUp.fulfilled, (state, action) => {
+            state.isSignUp = action.payload.value
         })
     }
 })
 
+export const regReducer = slice.reducer
+export const {setIsRegister} = slice.actions;
 
-export const {setIsAuthorized} = slice.actions;
-export const profileReducer = slice.reducer
+//type
+type InitType = {
+    isSignUp: boolean
+}
+
+type PayloadActionType = { value: boolean }

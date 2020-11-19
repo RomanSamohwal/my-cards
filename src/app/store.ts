@@ -1,13 +1,19 @@
-import { configureStore } from "@reduxjs/toolkit";
+import {configureStore} from "@reduxjs/toolkit";
 import {combineReducers} from 'redux'
 import thunkMiddleware from 'redux-thunk'
-import {authReducer} from '../features/Auth/auth-reducer';
 import {useDispatch} from 'react-redux';
 import {appReducer} from './app-reducer';
+import {regReducer} from '../features/Register/register-reducer';
+import {loginReducer} from '../features/Login/login-reducer';
+import { profileReducer } from "../features/Profile/profile-reducer";
+import {logoutReducer} from '../features/Logout/logout-reducers';
 
 const rootReducer = combineReducers({
     app: appReducer,
-    auth: authReducer
+    reg: regReducer,
+    login: loginReducer,
+    logout: logoutReducer,
+    profile: profileReducer,
 })
 
 export const store = configureStore({

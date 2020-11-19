@@ -1,23 +1,22 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {setAppError, setAppStatus} from '../../app/app-reducer';
+import {setAppError, setAppStatus, setInfo} from '../../app/app-reducer';
 import {authAPI} from '../../api/cards-api';
 import {AxiosError} from 'axios';
-import {ProfileInitState} from './ProfileInitState';
-import {PayloadActionType} from '../Login/login-reducer';
+import { setIsAuthorized } from '../Profile/profile-reducer';
 
-export const initializedAp = createAsyncThunk(
-    'profile/initializeApp',
+export const logOut = createAsyncThunk('auth/logOut',
     async (param, {dispatch, rejectWithValue}) => {
         dispatch(setAppStatus({status: 'loading'}))
         try {
-            let res = await authAPI.authMe()
+            const res = await authAPI.logout()
+            console.log(res.info)
+            dispatch(setInfo({info: res.info}))
+            dispatch(setIsAuthorized({value: false}))
             dispatch(setAppStatus({status: 'succeeded'}))
-            dispatch(setIsAuthorized({value: true}))
-            return {res: res}
+            return {isLogOut: true}
         } catch (err) {
             const error: AxiosError = err;
             dispatch(setAppStatus({status: 'failed'}))
-            dispatch(setIsAuthorized({value: false}))
             if (error.response?.data.error) {
                 dispatch(setAppError({error: error.response.data.error}))
                 return rejectWithValue({error: error.response.data.error})
@@ -29,20 +28,22 @@ export const initializedAp = createAsyncThunk(
     })
 
 const slice = createSlice({
-    name: 'profile',
-    initialState: ProfileInitState,
-    reducers: {
-        setIsAuthorized(state, action: PayloadAction<PayloadActionType>) {
-            state.isAuthorized  = action.payload.value
-        }
-    },
+    name: 'logout',
+    initialState: {
+        isLogOut: false
+    } as InitType,
+    reducers: {},
     extraReducers: builder => {
-        builder.addCase(initializedAp.fulfilled, (state, action) => {
-                state.user = action.payload.res
+        builder.addCase(logOut.fulfilled,
+            (state, action: PayloadAction<InitType>) => {
+             state.isLogOut = action.payload.isLogOut
         })
     }
 })
 
+export const logoutReducer = slice.reducer
 
-export const {setIsAuthorized} = slice.actions;
-export const profileReducer = slice.reducer
+//types
+type InitType = {
+    isLogOut: boolean
+}

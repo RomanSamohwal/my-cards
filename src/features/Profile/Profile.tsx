@@ -1,8 +1,9 @@
 import React from 'react'
+import {Logout} from '../Logout/Logout';
 
 export const Profile = React.memo(() => {
    return <>
-      {alert('in profile')}
       Profile
+      <Logout/>
    </>
 })

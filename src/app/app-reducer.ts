@@ -1,34 +1,13 @@
-import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {authAPI} from '../api/cards-api';
-import {AxiosError} from 'axios';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-export const initializedAp = createAsyncThunk(
-    'app/initializeApp',
-    async (param, {dispatch, rejectWithValue}) => {
-        dispatch(setAppStatus({status: 'loading'}))
-        try {
-            let res = await authAPI.authMe()
-            console.log(res)
-            dispatch(setAppStatus({status: 'succeeded'}))
-        } catch (err) {
-            const error: AxiosError = err;
-            dispatch(setAppStatus({status: 'failed'}))
-            if (error.response?.data.error) {
-                dispatch(setAppError({error: error.response.data.error}))
-                return rejectWithValue({error: error.response.data.error})
-            } else {
-                dispatch(setAppError({error: error.message}))
-                return rejectWithValue({error: error.message})
-            }
-        }
-    })
 
 const slice = createSlice({
     name: 'app',
     initialState: {
         status: 'idle',
         error: null,
-        isInitialized: false
+        isInitialized: false,
+        info: ''
     } as InitialStateType,
     reducers: {
         setAppError(state, action: PayloadAction<{ error: string | null }>) {
@@ -36,17 +15,15 @@ const slice = createSlice({
         },
         setAppStatus(state, action: PayloadAction<{ status: RequestStatusType }>) {
             state.status = action.payload.status
+        },
+        setInfo(state, action: PayloadAction<{ info: string }>) {
+            state.info = action.payload.info
         }
-    },
-    extraReducers: builder => {
-        builder.addCase(initializedAp.fulfilled, (state) => {
-            state.isInitialized = true
-        })
     }
 })
 
 export const appReducer = slice.reducer;
-export const {setAppError, setAppStatus} = slice.actions
+export const {setAppError, setAppStatus, setInfo} = slice.actions
 //types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 export type InitialStateType = {
@@ -55,4 +32,5 @@ export type InitialStateType = {
     // если ошибка какая-то глобальная произойдёт - мы запишем текст ошибки сюда
     error: string | null
     isInitialized: boolean
+    info: string
 }
