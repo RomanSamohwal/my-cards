@@ -2,26 +2,18 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {authAPI, LoginParamsType} from '../../api/cards-api';
 import {setAppError, setAppStatus} from '../../app/app-reducer';
 import {AxiosError} from 'axios';
+import {handleError} from '../../utils/error-util';
 
 export const signUp = createAsyncThunk<any, LoginParamsType, any>(
     'auth/signUp',
-    async (param: LoginParamsType, {dispatch,
-        rejectWithValue}) => {
-        dispatch(setAppStatus({status: 'loading'}))
+    async (param: LoginParamsType, thunkAPI) => {
+        thunkAPI.dispatch(setAppStatus({status: 'loading'}))
         try {
             await authAPI.signUp(param)
-            dispatch(setAppStatus({status: 'succeeded'}))
+            thunkAPI.dispatch(setAppStatus({status: 'succeeded'}))
             return {value: true}
         } catch (err) {
-            const error: AxiosError = err;
-            dispatch(setAppStatus({status: 'failed'}))
-            if (error.response?.data.error) {
-                dispatch(setAppError({error: error.response.data.error}))
-                return rejectWithValue({error: error.response.data.error})
-            } else {
-                dispatch(setAppError({error: error.message}))
-                return rejectWithValue({error: error.message})
-            }
+            handleError(err, thunkAPI)
         }
     })
 

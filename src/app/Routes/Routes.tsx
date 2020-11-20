@@ -6,6 +6,7 @@ import {RegisterContainer} from '../../features/Register/RegisterContainer';
 import {ForgotContainer} from '../../features/Forgot/ForgotContainer';
 import {ProfileContainer} from '../../features/Profile/ProfileContainer';
 import {Switch} from 'react-router-dom';
+import {SetPassContainer} from '../../features/SetPass/SetPassContainer';
 
 export const Routes = () => {
 
@@ -18,6 +19,7 @@ export const Routes = () => {
             <Route exact path={PATH.REGISTER} render={() => <RegisterContainer/>}/>
             <Route exact path={PATH.FORGOT} render={() => <ForgotContainer/>}/>
             <Route exact path={PATH.PROFILE} render={() => <ProfileContainer/>}/>
+            <Route exact path={PATH.SET_PASS} render={() => <SetPassContainer/>}/>
         </Switch>
     </>
 }

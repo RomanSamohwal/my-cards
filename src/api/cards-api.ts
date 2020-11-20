@@ -34,7 +34,7 @@ export const authAPI = {
         const response = await instance.post<ErrorDataType>('auth/forgot', {});
         return response.data;
     },
-    newPassword: async (data: LoginParamsType) => {
+    setNewPassword: async (data: LoginParamsType) => {
         const response = await instance.post<ErrorDataType>('auth/set-new-password', data);
         return response.data;
     },

@@ -1,28 +1,20 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {authAPI, LoginParamsType} from '../../api/cards-api';
-import {setAppError, setAppStatus} from '../../app/app-reducer';
-import {AxiosError} from 'axios';
+import {setAppStatus} from '../../app/app-reducer';
 import {setIsAuthorized} from '../Profile/profile-reducer';
+import {handleError} from '../../utils/error-util';
 
 export const login = createAsyncThunk<any, LoginParamsType, any>(
     'login/Login',
-    async (param: LoginParamsType, {dispatch, rejectWithValue}) => {
-        dispatch(setAppStatus({status: 'loading'}))
+    async (param: LoginParamsType, thunkAPI) => {
+        thunkAPI.dispatch(setAppStatus({status: 'loading'}))
         try {
             await authAPI.login(param)
-            dispatch(setAppStatus({status: 'succeeded'}))
-            dispatch(setIsAuthorized({value: true}))
+            thunkAPI.dispatch(setAppStatus({status: 'succeeded'}))
+            thunkAPI.dispatch(setIsAuthorized({value: true}))
             return {value: true}
         } catch (err) {
-            const error: AxiosError = err;
-            dispatch(setAppStatus({status: 'failed'}))
-            if (error.response?.data.error) {
-                dispatch(setAppError({error: error.response.data.error}))
-                return rejectWithValue({error: error.response.data.error})
-            } else {
-                dispatch(setAppError({error: error.message}))
-                return rejectWithValue({error: error.message})
-            }
+            handleError(err,thunkAPI)
         }
     })
 
