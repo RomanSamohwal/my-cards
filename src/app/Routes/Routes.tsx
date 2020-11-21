@@ -1,12 +1,12 @@
 import React from 'react';
 import {Redirect, Route} from 'react-router-dom';
 import {PATH} from '../Header/Path';
-import {LoginContainer} from '../../features/Login/LoginContainer';
-import {RegisterContainer} from '../../features/Register/RegisterContainer';
-import {ForgotContainer} from '../../features/Forgot/ForgotContainer';
-import {ProfileContainer} from '../../features/Profile/ProfileContainer';
+import {LoginContainer} from '../../features/Auth/Login/LoginContainer';
+import {RegisterContainer} from '../../features/Auth/Register/RegisterContainer';
+import {ForgotContainer} from '../../features/Auth/Forgot/ForgotContainer';
+import {ProfileContainer} from '../../features/Auth/Profile/ProfileContainer';
 import {Switch} from 'react-router-dom';
-import {SetPassContainer} from '../../features/SetPass/SetPassContainer';
+import {SetPassContainer} from '../../features/Auth/SetPass/SetPassContainer';
 
 export const Routes = () => {
 
@@ -19,7 +19,7 @@ export const Routes = () => {
             <Route exact path={PATH.REGISTER} render={() => <RegisterContainer/>}/>
             <Route exact path={PATH.FORGOT} render={() => <ForgotContainer/>}/>
             <Route exact path={PATH.PROFILE} render={() => <ProfileContainer/>}/>
-            <Route exact path={PATH.SET_PASS} render={() => <SetPassContainer/>}/>
+            <Route exact path={PATH.SET_PASS+'/:token'} render={() => <SetPassContainer/>}/>
         </Switch>
     </>
 }

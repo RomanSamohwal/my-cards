@@ -1,8 +1,9 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {authAPI, LoginParamsType} from '../../api/cards-api';
-import {setAppStatus} from '../../app/app-reducer';
+import {setAppStatus} from '../../../app/app-reducer';
 import {setIsAuthorized} from '../Profile/profile-reducer';
-import {handleError} from '../../utils/error-util';
+import {handleError} from '../../../utils/error-util';
+import {authAPI} from '../../../api/auth-api';
+import {LoginParamsType} from '../../../api/api-types';
 
 export const login = createAsyncThunk<any, LoginParamsType, any>(
     'login/Login',

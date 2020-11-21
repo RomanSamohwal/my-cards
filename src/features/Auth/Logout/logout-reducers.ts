@@ -1,8 +1,8 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {setAppError, setAppStatus, setInfo} from '../../app/app-reducer';
-import {authAPI} from '../../api/cards-api';
+import {setAppError, setAppStatus, setInfo} from '../../../app/app-reducer';
 import {AxiosError} from 'axios';
 import { setIsAuthorized } from '../Profile/profile-reducer';
+import { authAPI } from '../../../api/auth-api';
 
 export const logOut = createAsyncThunk('auth/logOut',
     async (param, {dispatch, rejectWithValue}) => {

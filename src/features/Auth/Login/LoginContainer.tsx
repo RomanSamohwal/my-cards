@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react'
 import {Login} from './Login';
-import {AppRootStateType, useAppDispatch} from '../../app/store';
+import {AppRootStateType, useAppDispatch} from '../../../app/store';
 import {useSelector} from 'react-redux';
 import {Redirect} from 'react-router-dom';
-import {PATH} from '../../app/Header/Path';
+import {PATH} from '../../../app/Header/Path';
 import {setIsRegister} from '../Register/register-reducer';
 
 export const LoginContainer = React.memo(() => {

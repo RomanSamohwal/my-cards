@@ -1,5 +1,5 @@
 import React from 'react'
-import {useAppDispatch} from '../../app/store';
+import {useAppDispatch} from '../../../app/store';
 import {SetPassword} from './SetPassword';
 
 export const SetPassContainer = React.memo(() => {

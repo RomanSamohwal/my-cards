@@ -1,18 +1,15 @@
-import axios from 'axios'
-import {UserType} from '../features/Profile/ProfileInitState';
+import {instance} from './instance';
+import {
+    ErrorDataType,
+    ForgotDataType,
+    GetMeDataType,
+    InfoType,
+    LoginParamsType,
+    SetPasswordType,
+    SignInDataType,
+    UpdateUserDataType
+} from './api-types';
 
-const localhost = 'http://localhost:7542/2.0/'
-
-const settings = {
-    withCredentials: true
-}
-
-const instance = axios.create({
-    baseURL: localhost,
-    ...settings
-})
-
-// api
 export const authAPI = {
     signUp: async (data: LoginParamsType) => {
         const response = await instance.post<ErrorDataType>('auth/register', data);
@@ -30,12 +27,21 @@ export const authAPI = {
         const response = await instance.delete<InfoType>('auth/me', {});
         return response.data;
     },
-    forgot: async () => {
-        const response = await instance.post<ErrorDataType>('auth/forgot', {});
+    forgot: async (email: string) => {
+        const response = await instance.post<ForgotDataType>("/auth/forgot", {
+            email,
+            from: "test-front-admin <ai73a@yandex.by>",
+            message: `
+<div style="background-color: lime; padding: 15px">
+password recovery link: 
+<a href='http://localhost:3000/#/set-new-password/$token$'>link</a>
+</div>
+`
+        });
         return response.data;
     },
     setNewPassword: async (data: LoginParamsType) => {
-        const response = await instance.post<ErrorDataType>('auth/set-new-password', data);
+        const response = await instance.post<SetPasswordType>('auth/set-new-password', data);
         return response.data;
     },
     updateUsers: async (name: string, avatar: string) => {
@@ -43,28 +49,3 @@ export const authAPI = {
         return response.data;
     }
 }
-
-//types
-export type SignInDataType = UserType & { error: string; };
-
-export type InfoType = {
-    info: string
-}
-
-export type ErrorDataType = {
-    error: string;
-}
-
-export type UpdateUserDataType = {
-    updatedUser: UserType;
-    error: string;
-};
-
-export type LoginParamsType = {
-    email: string
-    password: string
-    rememberMe?: boolean
-    resetPasswordToken?: string
-}
-
-export type GetMeDataType = UserType & { error: string; };

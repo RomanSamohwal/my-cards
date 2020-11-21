@@ -2,7 +2,7 @@ import React from 'react';
 import {FormikHelpers, useFormik} from 'formik';
 import {FormValuesType} from './FormikTypes';
 import style from './Formik.module.css'
-import { login } from '../../features/Login/login-reducer';
+import { login } from '../../features/Auth/Login/login-reducer';
 import {useAppDispatch} from '../../app/store';
 
 export const LoginFormik = () => {
@@ -44,13 +44,11 @@ export const LoginFormik = () => {
     </>
 }
 //initial value
-
 const initialValues: FormValuesType = {
     email: '',
     password: '',
     rememberMe: false
 }
-
 //validate
  let validate = (values: FormValuesType) => {
     if (!values.email) {

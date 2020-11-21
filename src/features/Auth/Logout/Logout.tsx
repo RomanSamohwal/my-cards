@@ -1,6 +1,6 @@
 import React from 'react'
 import {logOut} from './logout-reducers';
-import {useAppDispatch} from '../../app/store';
+import {useAppDispatch} from '../../../app/store';
 
 export const Logout = React.memo(() => {
     const dispatch = useAppDispatch()

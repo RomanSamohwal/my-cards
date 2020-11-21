@@ -1,9 +1,9 @@
 import React from 'react'
 import {Redirect} from 'react-router-dom';
 import {useSelector} from 'react-redux';
-import {AppRootStateType, useAppDispatch} from '../../app/store';
-import {PATH} from '../../app/Header/Path';
-import {setAppStatus} from '../../app/app-reducer';
+import {AppRootStateType, useAppDispatch} from '../../../app/store';
+import {PATH} from '../../../app/Header/Path';
+import {setAppStatus} from '../../../app/app-reducer';
 import {Register} from './Register';
 
 export const RegisterContainer = () => {

@@ -1,4 +1,4 @@
-import {LoginParamsType} from '../../api/cards-api';
+import { LoginParamsType } from '../../../api/api-types';
 import {login, loginReducer} from './login-reducer';
 
 let startState: {isLoggedIn: boolean }

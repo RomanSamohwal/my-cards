@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useAppDispatch} from '../../app/store';
 import {FormikHelpers, useFormik} from 'formik';
-import {signUp} from '../../features/Register/register-reducer';
+import {signUp} from '../../features/Auth/Register/register-reducer';
 import {validate} from './FormikValidate';
 import {FormValuesType} from './FormikTypes';
 import style from './Formik.module.css'

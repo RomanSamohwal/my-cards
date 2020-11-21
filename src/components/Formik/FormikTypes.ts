@@ -6,8 +6,8 @@ export type InputDateType = {
 }
 
 export type FormValuesType = {
-    email: string,
-    password: string,
+    email: string
+    password: string
     password_confirm?: string
     rememberMe?: boolean
 }

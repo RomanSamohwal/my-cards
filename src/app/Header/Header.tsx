@@ -9,6 +9,6 @@ export const Header = () => {
         <NavLink to={PATH.FORGOT}>Forgot</NavLink>
         <NavLink to={PATH.LOGIN}>Login</NavLink>
         <NavLink to={PATH.REGISTER}>Register</NavLink>
-        <NavLink to={PATH.SET_PASS}>New password</NavLink>
+        <NavLink to={PATH.SET_PASS + '/1'}>New password</NavLink>
     </div>
 }

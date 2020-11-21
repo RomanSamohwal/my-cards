@@ -3,10 +3,10 @@ import {combineReducers} from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import {useDispatch} from 'react-redux';
 import {appReducer} from './app-reducer';
-import {regReducer} from '../features/Register/register-reducer';
-import {loginReducer} from '../features/Login/login-reducer';
-import { profileReducer } from "../features/Profile/profile-reducer";
-import {logoutReducer} from '../features/Logout/logout-reducers';
+import {regReducer} from '../features/Auth/Register/register-reducer';
+import {loginReducer} from '../features/Auth/Login/login-reducer';
+import { profileReducer } from "../features/Auth/Profile/profile-reducer";
+import {logoutReducer} from '../features/Auth/Logout/logout-reducers';
 
 const rootReducer = combineReducers({
     app: appReducer,
