@@ -66,3 +66,4 @@ const initialValues: FormValuesType = {
     password: '',
     password_confirm: ''
 }
+
