@@ -1,5 +1,5 @@
-import {LoginParamsType} from '../../api/cards-api';
 import {regReducer, signUp} from './register-reducer';
+import {LoginParamsType} from '../../../api/api-types';
 
 let startState: { isSignUp: boolean }
 
